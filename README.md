@@ -19,7 +19,41 @@ excluded:
 Paths stay local because which folders hold code is a fact about the project.
 Everything else (opt-in rules, analyzer rules, settings) comes from here.
 
-The path is relative, so this repo must be checked out next to the project.
+The path is relative, so this repo must be checked out next to the project:
+
+```sh
+git clone https://github.com/Joseph-Cursio/SwiftLintConfig.git ../SwiftLintConfig
+```
+
+If it's missing, SwiftLint only warns ("A local configuration … was not
+found") and lints with its own defaults, which contradict some of these rules
+(e.g. `trailing_comma`). Lint with `--strict` in CI so that fails.
+
+### In CI (GitHub Actions)
+
+Check out the project and this repo side by side, and lint from the project:
+
+```yaml
+lint:
+  runs-on: ubuntu-latest
+  container: ghcr.io/realm/swiftlint:0.65.1
+  defaults:
+    run:
+      working-directory: MyProject
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        path: MyProject
+    - uses: actions/checkout@v4
+      with:
+        repository: Joseph-Cursio/SwiftLintConfig
+        path: SwiftLintConfig
+    - run: swiftlint lint --strict --reporter github-actions-logging
+```
+
+An Xcode build phase that lints should skip, with a warning, when
+`${SRCROOT}/../SwiftLintConfig/.swiftlint.yml` doesn't exist, rather than fail
+the build on the default rules.
 
 ## Commands, from a project's root
 
