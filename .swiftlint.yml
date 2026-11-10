@@ -33,7 +33,7 @@ disabled_rules:
 #     multiline_call_arguments, discouraged_default_parameter
 #   High churn:           type_contents_order, one_declaration_per_file,
 #     required_deinit
-#   Framework misfit:     private_outlet, private_subject,
+#   Framework misfit:     private_outlet, private_subject, prefer_nimble,
 #     discouraged_optional_collection, incompatible_concurrency_annotation
 #   Conflicting rules:    contrasted_opening_brace (vs opening_brace),
 #     no_extension_access_modifier (vs extension_access_modifier),
@@ -119,7 +119,6 @@ opt_in_rules:
   - prefer_asset_symbols
   - prefer_condition_list
   - prefer_key_path
-  - prefer_nimble
   - prefer_self_in_static_references
   - prefer_self_type_over_type_of_self
   - prefer_zero_over_explicit_init
