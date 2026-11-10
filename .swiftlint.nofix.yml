@@ -1,0 +1,19 @@
+# Stack this on the fix pass only, from a project directory:
+#   swiftlint --fix --config .swiftlint.yml --config ../SwiftLintConfig/.swiftlint.nofix.yml
+# These rules stay on for `swiftlint lint`, but their correctors produce wrong
+# code (see the SwiftLint Never Autofix notes):
+# - unused_parameter rewrites an operator's `(lhs: T, rhs: T)` to
+#   `(lhs _: T, rhs _: T)`, which doesn't compile, and gives a subscript's
+#   parameter an external label.
+# - trailing_closure moves a labeled closure argument out but leaves `)`
+#   stranded on its own line before a run of spaces. Convert those by hand.
+# - empty_count rewrites `count >= 0` (always true) to `isEmpty`, and turns an
+#   `isEmpty == (count == 0)` law into a tautology.
+# - prefer_key_path puts a key path inside `#expect`/`#require`, whose
+#   expansion then fails to compile ("call can throw, but it is not marked
+#   with 'try'").
+disabled_rules:
+  - unused_parameter
+  - trailing_closure
+  - empty_count
+  - prefer_key_path
